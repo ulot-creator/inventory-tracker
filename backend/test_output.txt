@@ -1,0 +1,83 @@
+﻿node.exe : FAIL test/app.e2e-spec.ts
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL test/app.e2e-spec.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Inventory API (e2e)
+    POST /v1/inventory
+      ΓêÜ TC-01 ΓÇö should create a valid item and return 201 with IN_STOCK status (80 ms)
+      ΓêÜ TC-02 ΓÇö should return 409 Conflict when SKU already exists (9 ms)
+      ΓêÜ TC-03 ΓÇö should return 400 Bad Request when required fields are missing (7 ms)
+      ΓêÜ TC-04 ΓÇö should return 400 Bad Request when quantity is negative (5 ms)
+      ΓêÜ TC-05 ΓÇö should set status to LOW_STOCK when qty <= threshold (7 ms)
+      ΓêÜ TC-06 ΓÇö should set status to OUT_OF_STOCK when qty === 0 (7 ms)
+    GET /v1/inventory
+      ΓêÜ TC-07 ΓÇö should return an array of items within 1 second (6 ms)
+      ΓêÜ TC-08 ΓÇö should not include soft-deleted items (13 ms)
+    GET /v1/inventory/:id
+      ΓêÜ TC-09 ΓÇö should return the correct item by ID (8 ms)
+      ΓêÜ TC-10 ΓÇö should return 404 for a non-existent ID (8 ms)
+    GET /v1/inventory/low-stock
+      ΓêÜ TC-11 ΓÇö should include items where quantity <= lowStockThreshold (13 ms)
+      ΓêÜ TC-12 ΓÇö should NOT include items above threshold (8 ms)
+      ├ù TC-13 ΓÇö low stock detection accuracy: no false negatives (21 ms)
+    PATCH /v1/inventory/:id/quantity
+      ΓêÜ TC-14 ΓÇö should update quantity and recalculate status to LOW_STOCK (12 ms)
+      ΓêÜ TC-15 ΓÇö should return 400 when quantity is negative (11 ms)
+      ΓêÜ TC-16 ΓÇö should set status to OUT_OF_STOCK when quantity is 0 (14 ms)
+      ΓêÜ TC-17 ΓÇö should set status to IN_STOCK when quantity exceeds threshold (15 ms)
+      ΓêÜ TC-18 ΓÇö should return 404 for non-existent item (13 ms)
+    DELETE /v1/inventory/:id
+      ΓêÜ TC-19 ΓÇö should soft-delete an item (returns 200) (10 ms)
+      ΓêÜ TC-20 ΓÇö deleted item should not appear in GET /v1/inventory (8 ms)
+      ΓêÜ TC-21 ΓÇö should return 404 for already-deleted item (8 ms)
+      ├ù TC-22 ΓÇö should return 404 for non-existent item (7 ms)
+    PATCH /v1/inventory/:id
+      ΓêÜ TC-23 ΓÇö should update item name successfully (10 ms)
+      ΓêÜ TC-24 ΓÇö should return 404 for non-existent item (8 ms)
+
+  ΓùÅ Inventory API (e2e) ΓÇ║ GET /v1/inventory/low-stock ΓÇ║ TC-13 ΓÇö low stock detection accuracy: no false negatives
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 213 |[39m
+     [90m 214 |[39m       [36mfor[39m ([36mconst[39m item [36mof[39m trueLowStock) {
+    [31m[1m>[22m[39m[90m 215 |[39m         expect(lowStockIds[33m.[39mhas(item[33m.[39mid))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                          [31m[1m^[22m[39m
+     [90m 216 |[39m       }
+     [90m 217 |[39m     })[33m;[39m
+     [90m 218 |[39m   })[33m;[39m[0m
+
+      at Object.<anonymous> (app.e2e-spec.ts:215:42)
+
+  ΓùÅ Inventory API (e2e) ΓÇ║ DELETE /v1/inventory/:id ΓÇ║ TC-22 ΓÇö should return 404 for non-existent item
+
+    expected 404 "Not Found", got 200 "OK"
+
+    [0m [90m 307 |[39m       [36mawait[39m request(app[33m.[39mgetHttpServer())
+     [90m 308 |[39m         [33m.[39m[36mdelete[39m([32m'/v1/inventory/00000000-0000-0000-0000-000000000000'[39m)
+    [31m[1m>[22m[39m[90m 309 |[39m         [33m.[39mexpect([35m404[39m)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 310 |[39m     })[33m;[39m
+     [90m 311 |[39m   })[33m;[39m
+     [90m 312 |[39m[0m
+
+      at Object.<anonymous> (app.e2e-spec.ts:309:10)
+      ----
+      at Test._assertStatus (../node_modules/supertest/lib/test.js:309:14)
+      at ../node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (../node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (../node_modules/supertest/lib/test.js:195:23)
+      at localAssert (../node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (../node_modules/supertest/lib/test.js:152:11)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 22 passed, 24 total
+Snapshots:   0 total
+Time:        3.006 s, estimated 5 s
+Ran all test suites.
