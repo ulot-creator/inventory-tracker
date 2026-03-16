@@ -8,7 +8,7 @@ import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot(databaseConfig), // Temporarily disabled due to driver issues
+    TypeOrmModule.forRoot(databaseConfig),
     InventoryModule,
     SeedModule,
   ],
