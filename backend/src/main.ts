@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // For Vercel serverless
-export const server = async (req: any, res: any) => {
+export default async (req: any, res: any) => {
   const nestApp = await bootstrap();
   const instance: Express = nestApp.getHttpAdapter().getInstance();
   return instance(req, res);
