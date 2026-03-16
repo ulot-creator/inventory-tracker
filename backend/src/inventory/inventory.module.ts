@@ -7,7 +7,7 @@ import { InventoryMemoryStore } from './inventory-memory.store';
 
 @Module({
   imports: [
-    // TypeOrmModule.forFeature([Inventory]) // Temporarily disabled
+    TypeOrmModule.forFeature([Inventory])
   ],
   controllers: [InventoryController],
   providers: [InventoryService, InventoryMemoryStore],

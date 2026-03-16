@@ -11,7 +11,11 @@ async function bootstrap() {
     app = await NestFactory.create(AppModule);
     
     app.setGlobalPrefix('v1');
-    app.enableCors();
+    app.enableCors({
+      origin: true, // Allow all origins for easier debugging, or specify frontend URL
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      credentials: true,
+    });
     app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
     app.useGlobalFilters(new AllExceptionsFilter());
     
